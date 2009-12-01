@@ -1,0 +1,75 @@
+<%- defaults = {:height => 500, :width => 400, :modal => true, :draggable => false, :resizable => false, :auto => false, :title => "", :use_ajax => true} -%>
+<%- content_for :script do -%>
+<%- use_ajax = layer[:use_ajax].nil? ? defaults[:use_ajax] : layer[:use_ajax] -%>
+<%- layer_hash = layer.hash.abs -%>
+<script type="text/javascript" charset="utf-8">
+  (function($) {
+    var pkwde = pkwde || {};
+    pkwde.layer = {};
+    
+
+    pkwde.layer.ajaxCallback_<%= layer_hash %> = function (responseText, textStatus, XMLHttpRequest) {
+      // TODO aus der Form eine Ajax-Form erstellen...
+      if(textStatus == "success"){
+        // suche nach cancel button
+        var buttons = {};
+        var form = $("form", $(this));
+        
+        // Erstetzen des HTML-Cancel-Button durch Javascript-Button des Layers
+        var cancelButton = $(".cancel_button", this);
+        if(cancelButton.length > 0){
+          cancelButton.hide();
+          buttons[cancelButton.text()] = pkwde.layer.closeFunction;
+        }
+        // Erstetzen des Submit-Buttons durch Javascript-Button des Layers 
+        var submitButton = $(".submit_button", this);
+        if(submitButton.length > 0){
+          submitButton.hide();
+          buttons[submitButton.val()] = pkwde.layer.submitForm_<%= layer_hash %>(form);
+        }
+        
+        $("<%= layer[:layer_selector] %>").dialog( "option", {buttons: buttons } );
+      }else{//etwas lief schief
+        $("<%= layer[:layer_selector] %>").dialog("close");
+      }
+    };
+    
+    pkwde.layer.submitForm_<%= layer_hash %> = function(f) {
+      var form = f;
+      return function() {
+        <%- if use_ajax -%>
+          $.post(form.attr("action"), form.serialize());
+        <%- else -%>
+          form.submit();
+        <%- end -%>
+        $("<%= layer[:layer_selector] %>").dialog("close");
+      };
+    };
+    
+    pkwde.layer.ajaxCallFunction_<%= layer_hash %> = function() {
+      $("<%= layer[:layer_selector] %>").load("<%= layer[:url] %>", pkwde.layer.ajaxCallback_<%= layer_hash %>);
+    };
+    
+    pkwde.layer.closeFunction = function() {
+      $("<%= layer[:layer_selector] %>").dialog("destroy");
+    };
+    
+    pkwde.layer.createWindow_<%= layer_hash %> = function() {
+      $("<%= layer[:layer_selector] %>").dialog({height: <%= layer[:height] || defaults[:height] %>, width : <%= layer[:width] || defaults[:width] %>, modal : <%= layer[:modal] || defaults[:modal] %>, draggable : <%= layer[:draggable] || defaults[:draggable] %>, resizable: <%= layer[:resizable] || defaults[:resizable] %>, autoOpen: true, title: "<%= layer[:title] || defaults[:title] %>", open : pkwde.layer.ajaxCallFunction_<%= layer_hash %>, close: pkwde.layer.closeFunction });
+    };
+    
+    pkwde.layer.initialize_layer_<%= layer_hash %> = function(){
+      $("<%= layer[:trigger_selector] %>").click(function() {
+        pkwde.layer.createWindow_<%= layer_hash %>();
+      });
+      $("<%= layer[:trigger_selector] %>").attr("href", "#");
+    };
+
+    //ready
+    $(document).ready(function() {
+      pkwde.layer.initialize_layer_<%= layer_hash %>();
+    });
+    
+  })(jQuery);
+</script>
+<%- end -%>

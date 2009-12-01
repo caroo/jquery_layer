@@ -1,0 +1,7 @@
+= jquery_layer
+
+Helper methods for a jquery.ui dialog.
+
+== Copyright
+
+Copyright (c) 2009 pkw.de DEV-TEAM. See LICENSE for details.

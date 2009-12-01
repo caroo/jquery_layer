@@ -1,0 +1,30 @@
+module JqueryLayer
+  module LayerHelper
+    # show_layer rendert einen jquery.ui Dialog, der angezeigt wird, wenn ein
+    # in den options angegebener Trigger angeklickt wird. Der Inhalt des
+    # Dialog-Fensters wird in das layer_selector Element gerendert. Beim
+    # rendern werden Elemente mit der CSS-Klasse .cancel_button durch die
+    # Dialog spezifischen Buttons ersetzt. Das gleiche geschieht fuer alle
+    # Elemente mit der KLasse .submit_button.
+    # Folgende Optionen sind moeglich, siehe dazu auch
+    # http://jqueryui.com/demos/dialog/:
+    #  * <tt>:width(default = 500)</tt>
+    #  * <tt>:height(default = 400)</tt>
+    #  * <tt>:url</tt>
+    #  * <tt>:modal(default = true)</tt>
+    #  * <tt>:draggable(default = false)</tt>
+    #  * <tt>:resizable(default = false)</tt>
+    #  * <tt>:auto(default = false)</tt>
+    #  * <tt>:title(default = "")</tt>
+    #  * <tt>:use_ajax(default = true)</tt>
+    
+    def show_layer(options)
+      unless @layer_header_rendered
+        render :partial => "/layer_header"
+        @layer_header_rendered = true
+      end
+      render :partial => "/layer", :object => options || {}
+    end
+  end
+  
+end
