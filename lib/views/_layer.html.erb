@@ -38,11 +38,10 @@
       var form = f;
       return function() {
         <%- if use_ajax -%>
-          $.post(form.attr("action"), form.serialize());
+          $.post(form.attr("action"), form.serialize(), null, "script");
         <%- else -%>
           form.submit();
         <%- end -%>
-        $("<%= layer[:layer_selector] %>").dialog("close");
       };
     };
     
