@@ -10,7 +10,7 @@ begin
     gem.email = "dev@pkw.de"
     gem.authors = ["pkw.de development team"]
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
-    gem.add_dependency('rails', '>= 2.3.2')
+    gem.add_dependency('actionpack', '>= 2.3.2')
     gem.files = FileList["[A-Z]*.*", "{lib,test}/**/*"]
   end
   Jeweler::GemcutterTasks.new
