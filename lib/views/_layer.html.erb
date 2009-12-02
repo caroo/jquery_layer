@@ -61,6 +61,7 @@
     pkwde.layer.initialize_layer_<%= layer_hash %> = function(){
       $("<%= layer[:trigger_selector] %>").click(function() {
         pkwde.layer.createWindow_<%= layer_hash %>();
+        return false;
       });
       $("<%= layer[:trigger_selector] %>").attr("href", "#");
     };
