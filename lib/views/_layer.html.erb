@@ -54,7 +54,7 @@
     };
     
     pkwde.layer.createWindow_<%= layer_hash %> = function() {
-      $("<%= layer[:layer_selector] %>").dialog({height: <%= layer[:height] || defaults[:height] %>, width : <%= layer[:width] || defaults[:width] %>, modal : <%= layer[:modal] || defaults[:modal] %>, draggable : <%= layer[:draggable] || defaults[:draggable] %>, resizable: <%= layer[:resizable] || defaults[:resizable] %>, autoOpen: true, title: "<%= layer[:title] || defaults[:title] %>", open : pkwde.layer.ajaxCallFunction_<%= layer_hash %>, close: pkwde.layer.closeFunction });
+      $("<%= layer[:layer_selector] %>").dialog({<%= layer[:height] ? "height: #{layer[:height]}, " : "" %>width : <%= layer[:width] || defaults[:width] %>, modal : <%= layer[:modal] || defaults[:modal] %>, draggable : <%= layer[:draggable] || defaults[:draggable] %>, resizable: <%= layer[:resizable] || defaults[:resizable] %>, autoOpen: true, title: "<%= layer[:title] || defaults[:title] %>", open : pkwde.layer.ajaxCallFunction_<%= layer_hash %>, close: pkwde.layer.closeFunction });
     };
     
     pkwde.layer.initialize_layer_<%= layer_hash %> = function(){
