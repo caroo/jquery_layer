@@ -29,11 +29,12 @@
         }
         
         $("<%= layer[:layer_selector] %>").dialog( "option", {buttons: buttons } );
+        $("<%= layer[:layer_selector] %>").trigger("ajaxComplete");
         
         // remove standard action on submit
         form.submit(pkwde.layer.submitForm_<%= layer_hash %>(form));
       }else{//etwas lief schief
-        $("<%= layer[:layer_selector] %>").dialog("close");
+        $("<%= layer[:layer_selector] %>").trigger("ajaxError");
       }
     };
     
