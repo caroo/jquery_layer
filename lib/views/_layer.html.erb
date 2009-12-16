@@ -1,13 +1,12 @@
-<%- defaults = {:height => 500, :width => 400, :modal => true, :draggable => false, :resizable => false, :auto => false, :title => "", :use_ajax => true} -%>
+<%- defaults = {:width => 400, :modal => true, :draggable => false, :resizable => false, :auto => false, :title => "", :use_ajax => true} -%>
+<%- layer = defaults.merge(layer) -%>
+
 <%- content_for :script do -%>
-<%- use_ajax = layer[:use_ajax].nil? ? defaults[:use_ajax] : layer[:use_ajax] -%>
-<%- layer_hash = layer.hash.abs -%>
+<%- layer_hash = (layer.hash + rand(50)).abs -%>
 <script type="text/javascript" charset="utf-8">
   (function($) {
     var pkwde = pkwde || {};
     pkwde.layer = {};
-    
-
     pkwde.layer.ajaxCallback_<%= layer_hash %> = function (responseText, textStatus, XMLHttpRequest) {
       // TODO aus der Form eine Ajax-Form erstellen...
       if(textStatus == "success"){
@@ -44,7 +43,7 @@
         if(event){
           event.preventDefault();
         }
-        <%- if use_ajax -%>
+        <%- if layer[:use_ajax] -%>
           $.post(form.attr("action"), form.serialize(), null, "script");
         <%- else -%>
           form.submit();
@@ -61,7 +60,16 @@
     };
     
     pkwde.layer.createWindow_<%= layer_hash %> = function() {
-      $("<%= layer[:layer_selector] %>").dialog({<%= layer[:height] ? "height: #{layer[:height]}, " : "" %>width : <%= layer[:width] || defaults[:width] %>, modal : <%= layer[:modal] || defaults[:modal] %>, draggable : <%= layer[:draggable] || defaults[:draggable] %>, resizable: <%= layer[:resizable] || defaults[:resizable] %>, autoOpen: true, title: "<%= layer[:title] || defaults[:title] %>", open : pkwde.layer.ajaxCallFunction_<%= layer_hash %>, close: pkwde.layer.closeFunction });
+      $("<%= layer[:layer_selector] %>").dialog({
+        <%= layer[:height] ? "height: #{layer[:height]}, " : "" %>width : <%= layer[:width] %>,
+        modal : <%= layer[:modal] %>,<%= layer[:position] ? " position: #{layer[:position]}," : "" %>
+        draggable : <%= layer[:draggable] %>,
+        resizable: <%= layer[:resizable] %>,
+        autoOpen: true,
+        title: "<%= layer[:title] %>",
+        open : pkwde.layer.ajaxCallFunction_<%= layer_hash %>,
+        close: pkwde.layer.closeFunction
+      });
     };
     
     pkwde.layer.initialize_layer_<%= layer_hash %> = function(){
