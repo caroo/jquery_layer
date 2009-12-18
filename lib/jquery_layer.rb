@@ -2,6 +2,7 @@ $:.unshift(File.dirname(__FILE__)) unless
   $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname(__FILE__)))
 
 require 'helpers/layer_helper'
+require "model/layer_options"
 
 module JqueryLayer
   VIEW_PATH = File.join(File.dirname(__FILE__), *%w[views])

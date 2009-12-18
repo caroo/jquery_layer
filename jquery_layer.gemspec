@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{jquery_layer}
-  s.version = "0.2.3"
+  s.version = "0.3.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["pkw.de development team"]
-  s.date = %q{2009-12-08}
+  s.date = %q{2009-12-18}
   s.description = %q{This gem description}
   s.email = %q{dev@pkw.de}
   s.extra_rdoc_files = [
@@ -20,15 +20,17 @@ Gem::Specification.new do |s|
     "README.rdoc",
      "lib/helpers/layer_helper.rb",
      "lib/jquery_layer.rb",
+     "lib/model/layer_options.rb",
      "lib/views/_layer.html.erb",
      "lib/views/_layer_header.html.erb",
      "test/helper.rb",
-     "test/test_jquery_layer.rb"
+     "test/test_jquery_layer.rb",
+     "test/test_layer_options.rb"
   ]
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.5}
-  s.summary = %q{A html layer that supports based on jquery js library}
+  s.summary = %q{A html layer based on jquery js library}
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION

@@ -5,7 +5,7 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "jquery_layer"
-    gem.summary = %Q{A html layer that supports based on jquery js library}
+    gem.summary = %Q{A html layer based on jquery js library}
     gem.description = %Q{This gem description}
     gem.email = "dev@pkw.de"
     gem.authors = ["pkw.de development team"]
