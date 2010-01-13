@@ -16,7 +16,7 @@
         var cancelButton = $(".cancel_button", this);
         if(cancelButton.length > 0){
           cancelButton.hide();
-          buttons[cancelButton.text()] = pkwde.layer.closeFunction;
+          buttons[cancelButton.text()] = <%= layer.close_function_name %>;
         }
         // Erstetzen des Submit-Buttons durch Javascript-Button des Layers 
         var submitButton = $(".submit_button", this);
@@ -57,9 +57,9 @@
       $("<%= layer.layer_selector %>").load("<%= layer.url %>", <%= layer.ajax_callback_function_name %>);
     };
     
-    pkwde.layer.closeFunction = function(event, ui) {
+    <%= layer.close_function_name %> = function(event, ui) {
       <%= "#{layer.dialog_callbacks[:close]}(event, ui);" if layer.dialog_callbacks[:close] %>
-      <%- layer.dialog_callbacks[:close] = "pkwde.layer.closeFunction" %>
+      <%- layer.dialog_callbacks[:close] = layer.close_function_name %>
       $("<%= layer.layer_selector %>").dialog("destroy");
     };
     

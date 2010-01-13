@@ -95,6 +95,10 @@ class LayerOptions
     "pkwde.layer.createWindow_#{functions_appendix}"
   end
   
+  def close_function_name
+    "pkwde.layer.closeFunction_#{functions_appendix}"
+  end
+  
   def method_missing(method_name, *args)
     if(@options.has_key? method_name)
       return @options[method_name]
