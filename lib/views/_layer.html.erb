@@ -2,9 +2,9 @@
 
 <%- content_for :script do -%>
 <script type="text/javascript" charset="utf-8">
+  var pkwde = pkwde || {};
+  pkwde.layer = pkwde.layer || {};
   (function($) {
-    var pkwde = pkwde || {};
-    pkwde.layer = {};
     <%= layer.ajax_callback_function_name %> = function (responseText, textStatus, XMLHttpRequest) {
       // TODO aus der Form eine Ajax-Form erstellen...
       if(textStatus == "success"){
@@ -28,8 +28,10 @@
         $("<%= layer.layer_selector %>").dialog( "option", {buttons: buttons } );
         $("<%= layer.layer_selector %>").trigger("ajaxComplete");
         
+        <%- if layer.use_ajax -%>
         // remove standard action on submit
         form.submit(<%= layer.submit_form_function_name %>(form));
+        <%- end -%>
       }else{//etwas lief schief
         $("<%= layer.layer_selector %>").trigger("ajaxError");
       }
