@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{jquery_layer}
-  s.version = "0.4.2"
+  s.version = "0.4.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["pkw.de development team"]
-  s.date = %q{2010-01-13}
+  s.date = %q{2010-01-14}
   s.description = %q{This gem description}
   s.email = %q{dev@pkw.de}
   s.extra_rdoc_files = [

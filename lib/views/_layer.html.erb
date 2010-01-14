@@ -12,17 +12,33 @@
         var buttons = {};
         var form = $("form", $(this));
         
-        // Erstetzen des HTML-Cancel-Button durch Javascript-Button des Layers
         var cancelButton = $(".cancel_button", this);
-        if(cancelButton.length > 0){
-          cancelButton.hide();
-          buttons[cancelButton.text()] = <%= layer.close_function_name %>;
-        }
-        // Erstetzen des Submit-Buttons durch Javascript-Button des Layers 
         var submitButton = $(".submit_button", this);
-        if(submitButton.length > 0){
+        
+        if(cancelButton.length > 0 && submitButton.length > 0){
+          cancelButton.hide();
           submitButton.hide();
-          buttons[submitButton.val()] = <%= layer.submit_form_function_name %>(form);
+          // Reihenfolge bestimmen
+          if($(".cancel_button ~ .submit_button").length > 0){// submit-Button ist vor dem cancel-Button
+            // das was man als erstes reinwirft, ist rechts, also in der umgekehrten Reihenfolge einfuegen
+            buttons[submitButton.val()] = <%= layer.submit_form_function_name %>(form);
+            buttons[cancelButton.text()] = <%= layer.close_function_name %>;
+          }else if($(".submit_button ~ .cancel_button").length > 0){
+            buttons[cancelButton.text()] = <%= layer.close_function_name %>;
+            buttons[submitButton.val()] = <%= layer.submit_form_function_name %>(form);
+          }
+        }else{
+          // Erstetzen des HTML-Cancel-Button durch Javascript-Button des Layers
+          if(cancelButton.length > 0){
+            cancelButton.hide();
+            buttons[cancelButton.text()] = <%= layer.close_function_name %>;
+          }
+          // Erstetzen des Submit-Buttons durch Javascript-Button des Layers 
+          if(submitButton.length > 0){
+            submitButton.hide();
+            buttons[submitButton.val()] = <%= layer.submit_form_function_name %>(form);
+          }
+          
         }
         
         $("<%= layer.layer_selector %>").dialog( "option", {buttons: buttons } );
