@@ -60,7 +60,14 @@
           event.preventDefault();
         }
         <%- if layer.use_ajax -%>
-          $.post(form.attr("action"), form.serialize(), null, "script");
+        $.ajax({
+          type: 'POST',
+          url: form.attr("action"),
+          data: form.serialize(),
+          success: null,
+          dataType: "script",
+          dataFilter: pkwde.util.formErrorsFilter
+        });
         <%- else -%>
           form.submit();
         <%- end -%>
