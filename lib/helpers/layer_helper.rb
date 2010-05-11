@@ -19,7 +19,7 @@ module JqueryLayer
     #  * <tt>:use_ajax(default = true)</tt>
     
     def show_layer(options)
-      unless @layer_header_rendered
+      if !@layer_header_rendered && options[:render_header]
         render :partial => "/layer_header"
         @layer_header_rendered = true
       end
