@@ -3,108 +3,117 @@
 <%- content_for :script do -%>
 <script type="text/javascript" charset="utf-8">
 // <![CDATA[
-  var pkwde = pkwde || {};
-  pkwde.layer = pkwde.layer || {};
-  (function($) {
-    <%= layer.ajax_callback_function_name %> = function (responseText, textStatus, XMLHttpRequest) {
-      // TODO aus der Form eine Ajax-Form erstellen...
-      if(textStatus == "success"){
-        // suche nach cancel button
-        var buttons = {};
-        var form = $("form", $(this));
-        
-        var cancelButton = $(".cancel_button", this);
-        var submitButton = $(".submit_button", this);
-        
-        if(cancelButton.length > 0 && submitButton.length > 0){
-          cancelButton.hide();
-          submitButton.hide();
-          // Reihenfolge bestimmen
-          if($(".cancel_button ~ .submit_button").length > 0){// submit-Button ist vor dem cancel-Button
-            // das was man als erstes reinwirft, ist rechts, also in der umgekehrten Reihenfolge einfuegen
-            buttons[submitButton.val()] = <%= layer.submit_form_function_name %>(form);
-            buttons[cancelButton.text()] = <%= layer.close_function_name %>;
-          }else if($(".submit_button ~ .cancel_button").length > 0){
-            buttons[cancelButton.text()] = <%= layer.close_function_name %>;
-            buttons[submitButton.val()] = <%= layer.submit_form_function_name %>(form);
-          }
-        }else{
-          // Erstetzen des HTML-Cancel-Button durch Javascript-Button des Layers
-          if(cancelButton.length > 0){
-            cancelButton.hide();
-            buttons[cancelButton.text()] = <%= layer.close_function_name %>;
-          }
-          // Erstetzen des Submit-Buttons durch Javascript-Button des Layers 
-          if(submitButton.length > 0){
-            submitButton.hide();
-            buttons[submitButton.val()] = <%= layer.submit_form_function_name %>(form);
-          }
-          
-        }
-        
-        $("<%= layer.layer_selector %>").dialog( "option", {buttons: buttons } );
-        $("<%= layer.layer_selector %>").trigger("ajaxComplete");
-        
-        <%- if layer.use_ajax -%>
-        // remove standard action on submit
-        form.submit(<%= layer.submit_form_function_name %>(form));
-        <%- end -%>
-      }else{//etwas lief schief
-        $("<%= layer.layer_selector %>").trigger("ajaxError");
-      }
-    };
-    
-    <%= layer.submit_form_function_name %> = function(f) {
-      var form = f;
-      return function(event) {
-        if(event){
-          event.preventDefault();
-        }
-        <%- if layer.use_ajax -%>
-        $.ajax({
-          type: 'POST',
-          url: form.attr("action"),
-          data: form.serialize(),
-          success: null,
-          dataType: "script",
-          dataFilter: pkwde.util.formErrorsFilter
-        });
-        <%- else -%>
-          form.submit();
-        <%- end -%>
-      };
-    };
-    
-    <%= layer.ajax_call_function_name %> = function(event, ui) {
-      <%= "#{layer.dialog_callbacks[:open]}(event, ui);" if layer.dialog_callbacks[:open] %>
-      <%- layer.dialog_callbacks[:open] = layer.ajax_call_function_name -%>
-      $("<%= layer.layer_selector %>").load("<%= layer.url %>", <%= layer.ajax_callback_function_name %>);
-    };
-    
-    <%= layer.close_function_name %> = function(event, ui) {
-      <%= "#{layer.dialog_callbacks[:close]}(event, ui);" if layer.dialog_callbacks[:close] %>
-      <%- layer.dialog_callbacks[:close] = layer.close_function_name %>
-      $("<%= layer.layer_selector %>").dialog("destroy");
-    };
-    
-    <%= layer.create_window_function_name %> = function() {
-      $("<%= layer.layer_selector %>").dialog(<%= layer.to_json %>);
-    };
-    
-    <%= layer.initialize_layer_function_name %> = function(){
-      $("<%= layer.trigger_selector %>").click(function() {
-        <%= layer.create_window_function_name %>();
-        return false;
-      });
-      $("<%= layer.trigger_selector %>").attr("href", "#");
-    };
 
-    //ready
-    $(document).ready(function() {
-      <%= layer.initialize_layer_function_name %>();
+var pkwde = pkwde || {};
+pkwde.layer = pkwde.layer || {};
+(function($) {
+  <%= layer.ajax_callback_function_name %> = function (responseText, textStatus, XMLHttpRequest) {
+    // TODO aus der Form eine Ajax-Form erstellen...
+    if(textStatus == "success"){
+      // suche nach cancel button
+      var buttons = {};
+      var form = $("form", $(this));
+      
+      var cancelButton = $(".cancel_button", this);
+      var submitButton = $(".submit_button", this);
+      
+      if(cancelButton.length > 0 && submitButton.length > 0){
+        cancelButton.hide();
+        submitButton.hide();
+        // Reihenfolge bestimmen
+        if($(".cancel_button ~ .submit_button").length > 0){// submit-Button ist vor dem cancel-Button
+          // das was man als erstes reinwirft, ist rechts, also in der umgekehrten Reihenfolge einfuegen
+          buttons[submitButton.val()] = <%= layer.submit_form_function_name %>(form);
+          buttons[cancelButton.text()] = <%= layer.close_function_name %>;
+        }else if($(".submit_button ~ .cancel_button").length > 0){
+          buttons[cancelButton.text()] = <%= layer.close_function_name %>;
+          buttons[submitButton.val()] = <%= layer.submit_form_function_name %>(form);
+        }
+      }else{
+        // Erstetzen des HTML-Cancel-Button durch Javascript-Button des Layers
+        if(cancelButton.length > 0){
+          cancelButton.hide();
+          buttons[cancelButton.text()] = <%= layer.close_function_name %>;
+        }
+        // Erstetzen des Submit-Buttons durch Javascript-Button des Layers 
+        if(submitButton.length > 0){
+          submitButton.hide();
+          buttons[submitButton.val()] = <%= layer.submit_form_function_name %>(form);
+        }
+        
+      }
+      
+      $("<%= layer.layer_selector %>").dialog( "option", {buttons: buttons } );
+      $("<%= layer.layer_selector %>").trigger("ajaxComplete");
+      
+      <%- if layer.use_ajax -%>
+      // remove standard action on submit
+      form.submit(<%= layer.submit_form_function_name %>(form));
+      <%- end -%>
+    }else{//etwas lief schief
+      $("<%= layer.layer_selector %>").trigger("ajaxError");
+    }
+  };
+  
+  <%= layer.submit_form_function_name %> = function(f) {
+    var form = f;
+    return function(event) {
+      if(event){
+        event.preventDefault();
+      }
+      <%- if layer.use_ajax -%>
+      var serialized_form = form.serialize();
+      var close_function_name_as_param = escape("jquery_layer[close_function]=<%= layer.close_function_name %>");
+      if(serialized_form.length <= 0){
+        serialized_form = close_function_name;
+      }else{// not empty form
+        serialized_form += "&" + close_function_name_as_param
+      }
+      $.ajax({
+        type: 'POST',
+        url: form.attr("action"),
+        data: serialized_form,
+        success: null,
+        dataType: "script",
+        dataFilter: pkwde.util.formErrorsFilter
+      });
+      <%- else -%>
+        form.submit();
+      <%- end -%>
+    };
+  };
+  
+  <%= layer.ajax_call_function_name %> = function(event, ui) {
+    <%= "#{layer.dialog_callbacks[:open]}(event, ui);" if layer.dialog_callbacks[:open] %>
+    <%- layer.dialog_callbacks[:open] = layer.ajax_call_function_name -%>
+    $("<%= layer.layer_selector %>").load("<%= layer.url %>", <%= layer.ajax_callback_function_name %>);
+  };
+  
+  <%= layer.close_function_name %> = function(event, ui) {
+    <%= "#{layer.dialog_callbacks[:close]}(event, ui);" if layer.dialog_callbacks[:close] %>
+    <%- layer.dialog_callbacks[:close] = layer.close_function_name %>
+    $("<%= layer.layer_selector %>").dialog("destroy");
+  };
+  
+  <%= layer.create_window_function_name %> = function() {
+    $("<%= layer.layer_selector %>").dialog(<%= layer.to_json %>);
+  };
+  
+  <%= layer.initialize_layer_function_name %> = function(){
+    $("<%= layer.trigger_selector %>").click(function() {
+      <%= layer.create_window_function_name %>();
+      return false;
     });
-    
-  })(jQuery);
-  // ]]>
+    $("<%= layer.trigger_selector %>").attr("href", "#");
+  };
+
+  //ready
+  $(document).ready(function() {
+    <%= layer.initialize_layer_function_name %>();
+  });
+  
+})(jQuery);
+
+// ]]>
 </script>
 <%- end -%>
