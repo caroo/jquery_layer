@@ -42,11 +42,16 @@ class LayerOptions
     :auto => false,
     :title => "",
     :use_ajax => true,
-    :autoOpen => true
+    :autoOpen => true,
+    :content_for_script => true
   }
     
   def initialize(options)
     @options = DEFAULT_LAYER_OPTIONS.merge options
+  end
+  
+  def content_for_script?
+    @options[:content_for_script]
   end
   
   def dialog_options
