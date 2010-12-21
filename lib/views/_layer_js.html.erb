@@ -83,7 +83,7 @@ pkwde.layer = pkwde.layer || {};
   <%= layer.ajax_call_function_name %> = function(event, ui) {
     <%= "#{layer.dialog_callbacks[:open]}(event, ui);" if layer.dialog_callbacks[:open] %>
     <%- layer.dialog_callbacks[:open] = layer.ajax_call_function_name -%>
-    $("<%= layer.layer_selector %>").load("<%= layer.url %>", <%= layer.ajax_callback_function_name %>);
+    $("<%= layer.layer_selector %>").load(<%= layer.respond_to?(:url) ? layer.url : "$('#{layer.trigger_selector}').attr('href')" %>, <%= layer.ajax_callback_function_name %>);
   };
   
   <%= layer.close_function_name %> = function(event, ui) {
@@ -97,11 +97,11 @@ pkwde.layer = pkwde.layer || {};
   };
   
   <%= layer.initialize_layer_function_name %> = function(){
-    $("<%= layer.trigger_selector %>").click(function() {
+    $("<%= layer.trigger_selector %>").click(function(event) {
+      event.preventDefault();
       <%= layer.create_window_function_name %>();
       return false;
     });
-    $("<%= layer.trigger_selector %>").attr("href", "#");
   };
 
   //ready

@@ -25,6 +25,22 @@ module JqueryLayer
       end
       render :partial => "/layer", :object => options || {}
     end
+    
+    # ads nofollow to all links
+    def link_to_layer(*args, &block)
+      if block_given?
+        options = args.first || {}
+        html_options = args.second || {}
+        html_options[:rel] = "nofollow"
+        link_to options, html_options, &block
+      else
+        name = args.first
+        options = args.second
+        html_options = args.third || {}
+        html_options[:rel] = "nofollow"
+        link_to name, options, html_options, &block
+      end
+    end
+
   end
-  
 end
