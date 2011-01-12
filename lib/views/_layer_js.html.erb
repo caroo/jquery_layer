@@ -83,7 +83,7 @@ pkwde.layer = pkwde.layer || {};
   <%= layer.ajax_call_function_name %> = function(event, ui) {
     <%= "#{layer.dialog_callbacks[:open]}(event, ui);" if layer.dialog_callbacks[:open] %>
     <%- layer.dialog_callbacks[:open] = layer.ajax_call_function_name -%>
-    $("<%= layer.layer_selector %>").load(<%= layer.respond_to?(:url) ? layer.url : "$('#{layer.trigger_selector}').attr('href')" %>, <%= layer.ajax_callback_function_name %>);
+    $("<%= layer.layer_selector %>").load(<%= layer.url ? "'#{layer.url}'" : "$('#{layer.trigger_selector}').attr('href')" %>, <%= layer.ajax_callback_function_name %>);
   };
   
   <%= layer.close_function_name %> = function(event, ui) {

@@ -104,6 +104,10 @@ class LayerOptions
     "pkwde.layer.closeFunction_#{functions_appendix}"
   end
   
+  def url
+    @options and @options[:url]
+  end
+  
   def method_missing(method_name, *args)
     if(@options.has_key? method_name)
       return @options[method_name]
