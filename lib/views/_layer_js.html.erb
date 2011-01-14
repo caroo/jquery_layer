@@ -97,7 +97,7 @@ pkwde.layer = pkwde.layer || {};
   };
   
   <%= layer.initialize_layer_function_name %> = function(){
-    $("<%= layer.trigger_selector %>").click(function(event) {
+    $("<%= layer.trigger_selector %>").live("click", function(event) {
       event.preventDefault();
       pkwde.layer['url'] = $(this).attr('href');
       <%= layer.create_window_function_name %>();
