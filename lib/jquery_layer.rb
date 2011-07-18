@@ -1,8 +1,7 @@
-$:.unshift(File.dirname(__FILE__)) unless
-  $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname(__FILE__)))
-
 require 'helpers/layer_helper'
 require "model/layer_options"
+require "jquery_layer/version"
+require "jquery_layer/railtie"
 
 module JqueryLayer
   VIEW_PATH = File.join(File.dirname(__FILE__), *%w[views])
