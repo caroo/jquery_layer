@@ -2,6 +2,7 @@ require 'helpers/layer_helper'
 require "model/layer_options"
 require "jquery_layer/version"
 require "jquery_layer/railtie"
+require 'active_support/core_ext/string/output_safety'
 
 module JqueryLayer
   VIEW_PATH = File.join(File.dirname(__FILE__), *%w[views])

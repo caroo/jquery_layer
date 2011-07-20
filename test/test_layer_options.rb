@@ -25,6 +25,7 @@ class TestLayerOptions < Test::Unit::TestCase
   
   def test_should_have_to_json_method
     # assert_equal "{\"resizable\":false,\"height\":375,\"position\":\"[150,130]\",\"title\":\"\",\"modal\":true,\"width\":400,\"draggable\":false,\"open\":callback_function}",  @layer_options.to_json
-    assert @layer_options.to_json
+    assert json = @layer_options.to_json
+    assert json.html_safe?
   end
 end

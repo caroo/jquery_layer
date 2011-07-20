@@ -128,6 +128,6 @@ class LayerOptions
       end
     end
     json += dialog_callbacks.map{|key, value| "\"#{key}\":#{value}"}
-    return "{#{json.join(',')}}"
+    return "{#{json.join(',')}}".html_safe
   end
 end
