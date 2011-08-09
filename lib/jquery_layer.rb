@@ -18,4 +18,9 @@ module JqueryLayer
        Rails.logger.error(e.backtrace.join("\n"))
     end
   end
+  
+  module Config
+    mattr_accessor :js_namespace
+    mattr_accessor :content_for_key
+  end
 end

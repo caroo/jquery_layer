@@ -1,0 +1,8 @@
+<%- namespace_parts = JqueryLayer::Config.js_namespace.split(".") -%>
+<%- main_namespace  = namespace_parts.shift -%>
+var <%= main_namespace %> = <%= main_namespace %> || {};
+<%- namespace_parts.inject(main_namespace) do |memo, part| -%>
+  <%- memo.concat(".").concat(part) -%>
+  <%= memo %> = <%= memo %> || {};
+  <%- memo -%>
+<%- end && nil -%>

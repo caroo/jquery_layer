@@ -1,10 +1,9 @@
 <script type="text/javascript">
 // <![CDATA[
 
-var pkwde = pkwde || {};
-pkwde.layer = pkwde.layer || {};
+<%= render :partial => "jquery_layer/namespace" %>
 (function($) {
-  <%= layer.ajax_callback_function_name %> = function (responseText, textStatus, XMLHttpRequest) {
+  <%= layer.content_received_function_name %> = function (responseText, textStatus, XMLHttpRequest) {
     // TODO aus der Form eine Ajax-Form erstellen...
     if(textStatus == "success"){
       // suche nach cancel button
@@ -80,11 +79,11 @@ pkwde.layer = pkwde.layer || {};
     };
   };
 
-  <%= layer.ajax_call_function_name %> = function(event, ui) {
+  <%= layer.fetch_content_function_name %> = function(event, ui) {
     <%= "#{layer.dialog_callbacks[:open]}(event, ui);" if layer.dialog_callbacks[:open] %>
-    <%- layer.dialog_callbacks[:open] = layer.ajax_call_function_name -%>
+    <%- layer.dialog_callbacks[:open] = layer.fetch_content_function_name -%>
     if (<%= layer.use_ajax %>) {
-      $("<%= layer.layer_selector.html_safe %>").load(<%= layer.url ? "'#{layer.url}'" : "pkwde.layer['url']" %>, <%= layer.ajax_callback_function_name %>);
+      $("<%= layer.layer_selector.html_safe %>").load(<%= layer.url ? "'#{layer.url}'" : "pkwde.layer['url']" %>, <%= layer.content_received_function_name %>);
     }
   };
 
@@ -94,15 +93,11 @@ pkwde.layer = pkwde.layer || {};
     $("<%= layer.layer_selector.html_safe %>").dialog("destroy");
   };
 
-  <%= layer.create_window_function_name %> = function() {
-    $("<%= layer.layer_selector.html_safe %>").dialog(<%= layer.to_json %>);
-  };
-
   <%= layer.initialize_layer_function_name %> = function(){
     $("<%= layer.trigger_selector.html_safe %>").live("click", function(event) {
       event.preventDefault();
       pkwde.layer['url'] = $(this).attr('href');
-      <%= layer.create_window_function_name %>();
+      $("<%= layer.layer_selector.html_safe %>").dialog(<%= layer.to_json %>);
       return false;
     });
   };

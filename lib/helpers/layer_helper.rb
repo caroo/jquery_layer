@@ -19,11 +19,7 @@ module JqueryLayer
     #  * <tt>:use_ajax(default = true)</tt>
     
     def show_layer(options)
-      if !@layer_header_rendered && options[:render_header]
-        render :partial => "/layer_header"
-        @layer_header_rendered = true
-      end
-      render :partial => "/layer", :object => options || {}
+      render :partial => "jquery_layer/layer", :locals => {:options => options || {}}
     end
     
     # ads nofollow to all links

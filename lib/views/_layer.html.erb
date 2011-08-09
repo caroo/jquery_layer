@@ -1,9 +1,0 @@
-<%- layer = LayerOptions.new layer -%>
-
-<%- if layer.content_for_script? -%>
-  <%- content_for :script do -%>
-    <%= render :partial => '/layer_js', :locals => {:layer => layer} %>
-  <%- end -%>
-<%- else -%>
-  <%= render :partial => '/layer_js', :locals => {:layer => layer} %>
-<%- end -%>

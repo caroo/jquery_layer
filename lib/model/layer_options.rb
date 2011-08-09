@@ -1,16 +1,20 @@
 class LayerOptions
+  # Array of all options supported by jQuery UI Dialog class
+  # see http://jqueryui.com/demos/dialog/ for further documentation
   JQUERY_DIALOG_OPTIONS = [
+    :disabled,
     :autoOpen,
-    :bgiframe,
     :buttons,
     :closeOnEscape,
+    :closeText,
     :dialogClass,
     :draggable,
     :height,
     :hide,
-    :maxHeight,
+    :maxHeight,       
     :maxWidth,
     :minHeight,
+    :minWidth,
     :modal,
     :position,
     :resizable,
@@ -19,31 +23,41 @@ class LayerOptions
     :title,
     :width,
     :zIndex
-  ]
+  ].freeze
   
+  # Array of all events supported by jQuery UI Dialog class
+  # see http://jqueryui.com/demos/dialog/ for further documentation
   JQUERY_DIALOG_CALLBACKS = [
-    :beforeclose,
+    :create,
+    :beforeClose,
     :open,
     :focus,
     :dragStart,
     :drag,
-    :dragStop,
     :resizeStart,
     :resize,
     :resizeStop,
     :close
-  ]
+  ].freeze
+  
+  # List of additional jquery layer options
+  SUPPORTED_LAYER_OPTIONS = [
+    :use_ajax,
+    :content_for_script,
+    :url
+  ].freeze
   
   DEFAULT_LAYER_OPTIONS = {
-    :width => 400,
-    :modal => true,
-    :draggable => false,
-    :resizable => false,
-    :auto => false,
-    :title => "",
-    :use_ajax => true,
-    :autoOpen => true,
-    :content_for_script => true
+    :width              => 400,
+    :modal              => true,
+    :draggable          => false,
+    :resizable          => false,
+    :auto               => false,
+    :title              => "",
+    :use_ajax           => true,
+    :autoOpen           => true,
+    :content_for_script => true,
+    :debug              => false
   }
     
   def initialize(options)
@@ -81,27 +95,23 @@ class LayerOptions
   private :functions_appendix
   
   def initialize_layer_function_name
-    "pkwde.layer.initialize_layer_#{functions_appendix}"
+    "#{JqueryLayer::Config.js_namespace}.layer_#{functions_appendix}.initialize"
   end
   
-  def ajax_call_function_name
-    "pkwde.layer.ajaxCallFunction_#{functions_appendix}"
+  def fetch_content_function_name
+    "#{JqueryLayer::Config.js_namespace}.layer_#{functions_appendix}.fetchContent"
   end
   
-  def ajax_callback_function_name
-    "pkwde.layer.ajaxCallback_#{functions_appendix}"
+  def content_received_function_name
+    "#{JqueryLayer::Config.js_namespace}.layer_#{functions_appendix}.contentReceived"
   end
   
   def submit_form_function_name
-    "pkwde.layer.submitForm_#{functions_appendix}"
-  end
-  
-  def create_window_function_name
-    "pkwde.layer.createWindow_#{functions_appendix}"
+    "#{JqueryLayer::Config.js_namespace}.layer_#{functions_appendix}.submitForm"
   end
   
   def close_function_name
-    "pkwde.layer.closeFunction_#{functions_appendix}"
+    "#{JqueryLayer::Config.js_namespace}.layer_#{functions_appendix}.closeLayer"
   end
   
   def url
