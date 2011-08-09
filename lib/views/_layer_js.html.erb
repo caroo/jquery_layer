@@ -40,15 +40,15 @@ pkwde.layer = pkwde.layer || {};
 
       }
 
-      $("<%= layer.layer_selector %>").dialog( "option", {buttons: buttons } );
-      $("<%= layer.layer_selector %>").trigger("ajaxComplete");
+      $("<%= layer.layer_selector.html_safe %>").dialog( "option", {buttons: buttons } );
+      $("<%= layer.layer_selector.html_safe %>").trigger("ajaxComplete");
 
       <%- if layer.use_ajax -%>
       // remove standard action on submit
       form.submit(<%= layer.submit_form_function_name %>(form));
       <%- end -%>
     }else{//etwas lief schief
-      $("<%= layer.layer_selector %>").trigger("ajaxError");
+      $("<%= layer.layer_selector.html_safe %>").trigger("ajaxError");
     }
   };
 
@@ -64,7 +64,7 @@ pkwde.layer = pkwde.layer || {};
       if(serialized_form.length <= 0){
         serialized_form = close_function_name;
       }else{// not empty form
-        serialized_form += "&" + close_function_name_as_param
+        serialized_form += "&" + close_function_name_as_param;
       }
       $.ajax({
         type: 'POST',
@@ -84,22 +84,22 @@ pkwde.layer = pkwde.layer || {};
     <%= "#{layer.dialog_callbacks[:open]}(event, ui);" if layer.dialog_callbacks[:open] %>
     <%- layer.dialog_callbacks[:open] = layer.ajax_call_function_name -%>
     if (<%= layer.use_ajax %>) {
-      $("<%= layer.layer_selector %>").load(<%= layer.url ? "'#{layer.url}'" : "pkwde.layer['url']" %>, <%= layer.ajax_callback_function_name %>);
+      $("<%= layer.layer_selector.html_safe %>").load(<%= layer.url ? "'#{layer.url}'" : "pkwde.layer['url']" %>, <%= layer.ajax_callback_function_name %>);
     }
   };
 
   <%= layer.close_function_name %> = function(event, ui) {
     <%= "#{layer.dialog_callbacks[:close]}(event, ui);" if layer.dialog_callbacks[:close] %>
     <%- layer.dialog_callbacks[:close] = layer.close_function_name %>
-    $("<%= layer.layer_selector %>").dialog("destroy");
+    $("<%= layer.layer_selector.html_safe %>").dialog("destroy");
   };
 
   <%= layer.create_window_function_name %> = function() {
-    $("<%= layer.layer_selector %>").dialog(<%= layer.to_json %>);
+    $("<%= layer.layer_selector.html_safe %>").dialog(<%= layer.to_json %>);
   };
 
   <%= layer.initialize_layer_function_name %> = function(){
-    $("<%= layer.trigger_selector %>").live("click", function(event) {
+    $("<%= layer.trigger_selector.html_safe %>").live("click", function(event) {
       event.preventDefault();
       pkwde.layer['url'] = $(this).attr('href');
       <%= layer.create_window_function_name %>();
