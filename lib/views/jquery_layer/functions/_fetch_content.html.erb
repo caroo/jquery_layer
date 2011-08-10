@@ -1,7 +1,5 @@
 function(event, ui) {
   <%= "#{layer.dialog_callbacks[:open]}(event, ui);" if layer.dialog_callbacks[:open] %>
   <%- layer.dialog_callbacks[:open] = layer.fetch_content_function_name -%>
-  if (<%= layer.use_ajax %>) {
-    $("<%= layer.layer_selector.html_safe %>").load(<%= layer.url ? "'#{layer.url}'" : "#{layer.namespace}['url']" %>, <%= layer.content_received_function_name %>);
-  }
+  $("<%= layer.layer_selector.html_safe %>").load(<%= layer.url ? "'#{layer.url}'" : "#{layer.namespace}['url']" %>, <%= layer.content_received_function_name %>);
 }
