@@ -1,0 +1,5 @@
+function(event, ui) {
+  <%= "#{layer.dialog_callbacks[:close]}(event, ui);" if layer.dialog_callbacks[:close] %>
+  <%- layer.dialog_callbacks[:close] = layer.close_layer_function_name %>
+  $("<%= layer.layer_selector.html_safe %>").dialog("destroy");
+}

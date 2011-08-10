@@ -1,7 +1,7 @@
 <%- layer_options = LayerOptions.new(options) -%>
 
 <%- rendered_layer = render(:partial => 'jquery_layer/layer_js', :locals => {:layer => layer_options}) -%>
-<%- rendered_layer = Rack::Utils.escape_html(rendered_layer) if layer_options.debug -%>
+<%- rendered_layer = Rack::Utils.escape_html(rendered_layer) if layer_options.debug_mode -%>
 
 <%- if layer_options.content_for_script? -%>
   <%- content_for JqueryLayer::Config.content_for_key do -%>

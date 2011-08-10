@@ -12,6 +12,7 @@ module JqueryLayer
     config.after_initialize do |app|
       JqueryLayer::Config.js_namespace    = app.config.jquery_layer.js_namespace || "jquery_layer"
       JqueryLayer::Config.content_for_key = app.config.jquery_layer.content_for_key || :script
+      JqueryLayer::Config.content_filter  = app.config.jquery_layer.content_filter
     end
   end
 end

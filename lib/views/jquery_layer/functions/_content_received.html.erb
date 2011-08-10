@@ -1,0 +1,33 @@
+function(data, status, xhr) {
+  if(status == "success"){
+    // suche nach cancel button
+    var buttons = {};
+    var form = $("form", $(this));
+    
+    var cancelButton = $(".cancel_button", this);
+    var submitButton = $(".submit_button", this);
+    cancelButton.hide();
+    submitButton.hide();
+    // Erstetzen des HTML-Cancel-Button durch Javascript-Button des Layers
+    if(cancelButton.length > 0){
+      buttons[cancelButton.text()] = <%= layer.close_layer_function_name %>;
+    }
+    // Erstetzen des Submit-Buttons durch Javascript-Button des Layers
+    if(submitButton.length > 0){
+      buttons[submitButton.val()] = form.submit;
+    }
+    
+    form.append($("<input type='hidden' name='jquery_layer[close_function]' value='<%= layer.close_layer_function_name %>'>"));
+
+    $("<%= layer.layer_selector.html_safe %>").dialog( "option", { buttons: buttons } );
+    
+    <%- if (content_filter = JqueryLayer::Config.content_filter).present? -%>
+      form.bind('ajax:success', <%= content_filter %>);
+    <%- end -%>
+    
+    $("<%= layer.layer_selector.html_safe %>").trigger("jquery_layer:content_received", [data, status, xhr, form]);
+
+  }else{
+    $("<%= layer.layer_selector.html_safe %>").trigger("jquery_layer:content_fetch_error", [data, status, xhr]);
+  }
+}

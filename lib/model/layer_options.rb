@@ -43,8 +43,12 @@ class LayerOptions
   # List of additional jquery layer options
   SUPPORTED_LAYER_OPTIONS = [
     :use_ajax,
+    :fetch_content,
     :content_for_script,
-    :url
+    :url,
+    :trigger_selector,
+    :layer_selector,
+    :debug_mode
   ].freeze
   
   DEFAULT_LAYER_OPTIONS = {
@@ -54,14 +58,24 @@ class LayerOptions
     :resizable          => false,
     :auto               => false,
     :title              => "",
-    :use_ajax           => true,
+    :fetch_content      => true,
     :autoOpen           => true,
     :content_for_script => true,
     :debug              => false
   }
+  
+  (JQUERY_DIALOG_OPTIONS + JQUERY_DIALOG_CALLBACKS + SUPPORTED_LAYER_OPTIONS).each do |supported_method|
+    define_method supported_method do
+      @options[supported_method]
+    end
+  end
     
   def initialize(options)
     @options = DEFAULT_LAYER_OPTIONS.merge options
+    if @options.has_key?(:use_ajax)
+      ActiveSupport::Deprecation.warn(":use_ajax option is deprecated. Use fetch_content instead", caller)
+      @options[:fetch_content] = @options[:use_ajax] unless options.has_key?(:fetch_content)
+    end
   end
   
   def content_for_script?
@@ -89,41 +103,36 @@ class LayerOptions
     end
   end
   
-  def functions_appendix
-    @functions_appendix ||= (@options.hash + rand(50)).abs
-  end
-  private :functions_appendix
-  
-  def initialize_layer_function_name
-    "#{JqueryLayer::Config.js_namespace}.layer_#{functions_appendix}.initialize"
+  def current_namespace
+    @current_namespace ||= "layer" + (@options.hash + rand(50)).abs.to_s
   end
   
-  def fetch_content_function_name
-    "#{JqueryLayer::Config.js_namespace}.layer_#{functions_appendix}.fetchContent"
+  def namespace
+    @namespace ||= JqueryLayer::Config.js_namespace + "." + current_namespace
   end
   
-  def content_received_function_name
-    "#{JqueryLayer::Config.js_namespace}.layer_#{functions_appendix}.contentReceived"
+  def init_layer_function_name(format = :full)
+    name = "initLayer"
+    name.insert(0, ".").insert(0, namespace) if format.to_sym == :full
+    name
   end
   
-  def submit_form_function_name
-    "#{JqueryLayer::Config.js_namespace}.layer_#{functions_appendix}.submitForm"
+  def fetch_content_function_name(format = :full)
+    name = "fetchContent"
+    name.insert(0, ".").insert(0, namespace) if format.to_sym == :full
+    name
   end
   
-  def close_function_name
-    "#{JqueryLayer::Config.js_namespace}.layer_#{functions_appendix}.closeLayer"
+  def content_received_function_name(format = :full)
+    name = "contentReceived"
+    name.insert(0, ".").insert(0, namespace) if format.to_sym == :full
+    name
   end
   
-  def url
-    @options and @options[:url]
-  end
-  
-  def method_missing(method_name, *args)
-    if(@options.has_key? method_name)
-      return @options[method_name]
-    else
-      super
-    end
+  def close_layer_function_name(format = :full)
+    name = "closeLayer"
+    name.insert(0, ".").insert(0, namespace) if format.to_sym == :full
+    name
   end
   
   def to_json
