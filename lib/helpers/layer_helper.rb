@@ -21,7 +21,8 @@ module JqueryLayer
     def show_layer(options)
       layer_options = LayerOptions.new(options)
       concat render(:partial => "jquery_layer/layer", :locals => {:layer_options => layer_options || {}})
-      layer_options
+      yield layer_options if block_given?
+      nil
     end
     
     # ads nofollow to all links
