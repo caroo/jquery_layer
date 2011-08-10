@@ -48,7 +48,8 @@ class LayerOptions
     :url,
     :trigger_selector,
     :layer_selector,
-    :debug_mode
+    :debug_mode,
+    :script_tag
   ].freeze
   
   DEFAULT_LAYER_OPTIONS = {
@@ -61,8 +62,9 @@ class LayerOptions
     :fetch_content      => true,
     :autoOpen           => true,
     :content_for_script => true,
-    :debug              => false
-  }
+    :debug              => false,
+    :script_tag         => true
+  }.freeze
   
   (JQUERY_DIALOG_OPTIONS + JQUERY_DIALOG_CALLBACKS + SUPPORTED_LAYER_OPTIONS).each do |supported_method|
     define_method supported_method do
@@ -131,6 +133,12 @@ class LayerOptions
   
   def close_layer_function_name(format = :full)
     name = "closeLayer"
+    name.insert(0, ".").insert(0, namespace) if format.to_sym == :full
+    name
+  end
+  
+  def open_layer_function_name(format = :full)
+    name = "openLayer"
     name.insert(0, ".").insert(0, namespace) if format.to_sym == :full
     name
   end

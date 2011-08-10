@@ -1,5 +1,3 @@
-<%- layer_options = LayerOptions.new(options) -%>
-
 <%- rendered_layer = render(:partial => 'jquery_layer/layer_js', :locals => {:layer => layer_options}) -%>
 <%- rendered_layer = Rack::Utils.escape_html(rendered_layer) if layer_options.debug_mode -%>
 

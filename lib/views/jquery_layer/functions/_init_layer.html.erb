@@ -1,8 +1,7 @@
 function() {
   $("<%= layer.trigger_selector.html_safe %>").live("click", function(event) {
     event.preventDefault();
-    <%= layer.namespace %>['url'] = $(this).attr('href');
-    $("<%= layer.layer_selector.html_safe %>").dialog(<%= layer.to_json %>);
+    <%= layer.open_layer_function_name %>();
     return false;
   });
 }

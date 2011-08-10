@@ -19,7 +19,9 @@ module JqueryLayer
     #  * <tt>:use_ajax(default = true)</tt>
     
     def show_layer(options)
-      render :partial => "jquery_layer/layer", :locals => {:options => options || {}}
+      layer_options = LayerOptions.new(options)
+      concat render(:partial => "jquery_layer/layer", :locals => {:layer_options => layer_options || {}})
+      layer_options
     end
     
     # ads nofollow to all links

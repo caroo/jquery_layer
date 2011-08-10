@@ -1,13 +1,15 @@
+<%- if layer.script_tag -%>
 <script type="text/javascript">
 // <![CDATA[
+<%- end -%>
 <%= render :partial => "jquery_layer/namespace" %>
-
 (function($) {
   <%= layer.namespace %> = {
     <%- if layer.fetch_content -%>
     <%= layer.content_received_function_name(:short) %> : <%= render :partial => "jquery_layer/functions/content_received", :locals => {:layer => layer} %>,
     <%= layer.fetch_content_function_name(:short) %>    : <%= render :partial => "jquery_layer/functions/fetch_content", :locals => {:layer => layer} %>,
     <%- end -%>
+    <%= layer.open_layer_function_name(:short) %>       : <%= render :partial => "jquery_layer/functions/open_layer", :locals => {:layer => layer} %>,
     <%= layer.close_layer_function_name(:short) %>      : <%= render :partial => "jquery_layer/functions/close_layer", :locals => {:layer => layer} %>,
     <%= layer.init_layer_function_name(:short) %>       : <%= render :partial => "jquery_layer/functions/init_layer", :locals => {:layer => layer} %>
   };
@@ -17,5 +19,7 @@
   });
 
 })(jQuery);
+<%- if layer.script_tag -%>
 // ]]>
 </script>
+<%- end -%>
