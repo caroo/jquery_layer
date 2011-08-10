@@ -1,4 +1,5 @@
-<%- rendered_layer = render(:partial => 'jquery_layer/layer_js', :locals => {:layer => layer_options}) -%>
+<%- rendered_layer = render('jquery_layer/layer_js', :layer => layer_options, :additional_content => additional_content) -%>
+<%- rendered_layer = javascript_tag(rendered_layer) if layer_options.script_tag -%>
 <%- rendered_layer = Rack::Utils.escape_html(rendered_layer) if layer_options.debug_mode -%>
 
 <%- if layer_options.content_for_script? -%>

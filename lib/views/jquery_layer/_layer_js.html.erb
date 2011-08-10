@@ -1,7 +1,3 @@
-<%- if layer.script_tag -%>
-<script type="text/javascript">
-// <![CDATA[
-<%- end -%>
 <%= render :partial => "jquery_layer/namespace" %>
 (function($) {
   <%= layer.namespace %> = {
@@ -16,10 +12,7 @@
 
   $(document).ready(function() {
     <%= layer.init_layer_function_name %>();
+    <%= additional_content %>
   });
 
 })(jQuery);
-<%- if layer.script_tag -%>
-// ]]>
-</script>
-<%- end -%>

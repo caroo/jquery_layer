@@ -9,20 +9,24 @@ module JqueryLayer
     # Folgende Optionen sind moeglich, siehe dazu auch
     # http://jqueryui.com/demos/dialog/:
     #  * <tt>:width(default = 500)</tt>
-    #  * <tt>:height(default = 400)</tt>
     #  * <tt>:url</tt>
     #  * <tt>:modal(default = true)</tt>
     #  * <tt>:draggable(default = false)</tt>
     #  * <tt>:resizable(default = false)</tt>
     #  * <tt>:auto(default = false)</tt>
     #  * <tt>:title(default = "")</tt>
-    #  * <tt>:use_ajax(default = true)</tt>
+    #  * <tt>:fetch_content(default = true)</tt>
+    #  * <tt>:autoOpen(default = true)</tt>
+    #  * <tt>:debug(default = false)</tt>
+    #  * <tt>:script_tag(default = true)</tt>
     
-    def show_layer(options)
+    def show_layer(options, &block)
       layer_options = LayerOptions.new(options)
-      concat render(:partial => "jquery_layer/layer", :locals => {:layer_options => layer_options || {}})
-      yield layer_options if block_given?
-      nil
+      
+      additional_content = if block_given?
+        capture(layer_options, &block)
+      end
+      render "jquery_layer/layer", :layer_options => layer_options, :additional_content => additional_content
     end
     
     # ads nofollow to all links

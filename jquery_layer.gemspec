@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
   s.add_dependency "activesupport", ">= 3.0"
   s.add_dependency "actionpack", ">= 3.0"
   s.add_dependency "railties", ">= 3.0"
+  s.add_dependency "rack", ">= 1.2.1"
   s.add_development_dependency "rake"
   s.add_development_dependency "test-unit"
 end
