@@ -49,7 +49,8 @@ class LayerOptions
     :trigger_selector,
     :layer_selector,
     :debug_mode,
-    :script_tag
+    :script_tag,
+    :destroy_on_exit
   ].freeze
   
   DEFAULT_LAYER_OPTIONS = {
@@ -63,7 +64,8 @@ class LayerOptions
     :autoOpen           => true,
     :content_for_script => true,
     :debug              => false,
-    :script_tag         => true
+    :script_tag         => true,
+    :destroy_on_exit    => true
   }.freeze
   
   (JQUERY_DIALOG_OPTIONS + JQUERY_DIALOG_CALLBACKS + SUPPORTED_LAYER_OPTIONS).each do |supported_method|
