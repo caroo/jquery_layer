@@ -14,7 +14,7 @@ function(data, status, xhr) {
     }
     // Erstetzen des Submit-Buttons durch Javascript-Button des Layers
     if(submitButton.length > 0){
-      buttons[submitButton.val()] = form.submit;
+      buttons[submitButton.val()] = function(){form.submit()};
     }
     
     form.append($("<input type='hidden' name='jquery_layer[close_function]' value='<%= layer.close_layer_function_name %>'>"));
@@ -22,7 +22,7 @@ function(data, status, xhr) {
     $("<%= layer.layer_selector.html_safe %>").dialog( "option", { buttons: buttons } );
     
     <%- if (content_filter = JqueryLayer::Config.content_filter).present? -%>
-      form.bind('ajax:success', <%= content_filter %>);
+      form.bind('ajax:complete', function(event, xhr, status){ <%= content_filter %>(xhr.responseText); });
     <%- end -%>
     
     $("<%= layer.layer_selector.html_safe %>").trigger("jquery_layer:content_received", [data, status, xhr, form]);
