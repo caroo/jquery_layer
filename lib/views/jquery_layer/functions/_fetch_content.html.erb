@@ -1,4 +1,4 @@
 function(event, ui) {
-  var url = <%= layer.url ? "'#{layer.url}'".html_safe : "$('#{layer.trigger_selector}').attr('href')".html_safe %>;
+  var url = <%= layer.url ? "'#{layer.url}'".html_safe : "$(event.data.currentTarget).attr('href')".html_safe %>;
   $("<%= layer.layer_selector.html_safe %>").load(url, <%= layer.content_received_function_name %>);
 }

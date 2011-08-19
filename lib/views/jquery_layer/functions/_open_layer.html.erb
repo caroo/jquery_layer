@@ -1,11 +1,11 @@
-function() {
+function(event) {
 <%- if layer.destroy_on_exit -%>
   $("<%= layer.layer_selector.html_safe %>").unbind("dialogclose");
   $("<%= layer.layer_selector.html_safe %>").bind("dialogclose", function(event, ui){$(this).children().detach();});
 <%- end -%>
 <%- if layer.fetch_content -%>
   $("<%= layer.layer_selector.html_safe %>").unbind("dialogopen");
-  $("<%= layer.layer_selector.html_safe %>").bind("dialogopen", <%= layer.fetch_content_function_name %>);
+  $("<%= layer.layer_selector.html_safe %>").bind("dialogopen", event, <%= layer.fetch_content_function_name %>);
 <%- end -%>
   $("<%= layer.layer_selector.html_safe %>").dialog(<%= layer.to_json %>);
 }

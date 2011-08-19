@@ -1,7 +1,7 @@
 function() {
   $("<%= layer.trigger_selector.html_safe %>").live("click", function(event) {
     event.preventDefault();
-    <%= layer.open_layer_function_name %>();
+    <%= layer.open_layer_function_name %>(event);
     return false;
   });
 }
